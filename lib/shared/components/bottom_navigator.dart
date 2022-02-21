@@ -24,9 +24,8 @@ class BottomNavigatorComponent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: items,
-          ),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: items),
         ),
       ]),
     );
@@ -38,6 +37,7 @@ class BottomNavigatorItem extends StatelessWidget {
   final String activeIcon;
   final String icon;
   final bool isActive;
+  final Function() onTap;
 
   const BottomNavigatorItem({
     Key? key,
@@ -45,11 +45,13 @@ class BottomNavigatorItem extends StatelessWidget {
     required this.activeIcon,
     required this.icon,
     this.isActive = false,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(

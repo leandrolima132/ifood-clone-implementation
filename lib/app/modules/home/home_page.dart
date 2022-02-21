@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+
 import 'package:ifood/shared/components/banners.dart';
 import 'package:ifood/shared/components/bottom_navigator.dart';
 import 'package:ifood/shared/components/category_item.dart';
@@ -8,6 +9,7 @@ import 'package:ifood/shared/components/filters.dart';
 import 'package:ifood/shared/components/theme/app_icons.dart';
 import 'package:ifood/shared/components/theme/app_images.dart';
 import 'package:ifood/shared/models/categorys.dart';
+
 import '../../../app/modules/home/home_controller.dart';
 import '../../../shared/components/header_location.dart';
 
@@ -25,12 +27,12 @@ class _HomePageState extends State<HomePage>
   late TabController tabController;
   var controller = Modular.get<HomeController>();
 
-  late List<Category> categorys;
+  late List<Category> categories;
 
   @override
   void initState() {
     tabController = TabController(length: 6, vsync: this);
-    categorys = controller.getCategorys();
+    categories = controller.getCategorys();
     super.initState();
   }
 
@@ -62,73 +64,103 @@ class _HomePageState extends State<HomePage>
                   child: CustomScrollView(
                     physics: const BouncingScrollPhysics(),
                     slivers: [
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 86,
-                          child: ListView.builder(
-                              itemCount: categorys.length,
-                              scrollDirection: Axis.horizontal,
-                              physics: const BouncingScrollPhysics(),
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: EdgeInsets.only(
-                                    left: index == 0 ? 16 : 0,
-                                    right:
-                                        index == categorys.length - 1 ? 16 : 10,
-                                  ),
-                                  child: CategoryItemComponent(
-                                      category: categorys[index]),
-                                );
-                              }),
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                            height: 180,
-                            child: BannersComponents(list: [
-                              BannerItemComponents(
-                                  imagePath: AppImages.banner1),
-                              BannerItemComponents(
-                                  imagePath: AppImages.banner2),
-                              BannerItemComponents(
-                                  imagePath: AppImages.banner3),
-                              BannerItemComponents(
-                                  imagePath: AppImages.banner4),
-                            ])),
-                      ),
+                      _CategorySession(categories: categories),
+                      _BannerSession()
                     ],
                   ),
                 ),
               ),
-              BottomNavigatorComponent(
-                currentIndex: 0,
-                items: [
-                  BottomNavigatorItem(
-                    label: 'Início',
-                    activeIcon: AppIcons.homeActive,
-                    icon: AppIcons.home,
-                  ),
-                  BottomNavigatorItem(
-                    label: 'Busca',
-                    activeIcon: AppIcons.searchActive,
-                    icon: AppIcons.search,
-                  ),
-                  BottomNavigatorItem(
-                    label: 'Pedidos',
-                    activeIcon: AppIcons.ordersActive,
-                    icon: AppIcons.orders,
-                  ),
-                  BottomNavigatorItem(
-                    label: 'Perfil',
-                    activeIcon: AppIcons.profileActive,
-                    icon: AppIcons.profile,
-                  ),
-                ],
-              ),
+              _BottomNavigation()
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _CategorySession extends StatelessWidget {
+  final List<Category> categories;
+
+  const _CategorySession({
+    Key? key,
+    required this.categories,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: 86,
+        child: ListView.builder(
+            itemCount: categories.length,
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: index == 0 ? 16 : 0,
+                  right: index == categories.length - 1 ? 16 : 10,
+                ),
+                child: CategoryItemComponent(category: categories[index]),
+              );
+            }),
+      ),
+    );
+  }
+}
+
+class _BannerSession extends StatelessWidget {
+  const _BannerSession({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+          height: 180,
+          child: BannersComponents(list: [
+            BannerItemComponents(imagePath: AppImages.banner1),
+            BannerItemComponents(imagePath: AppImages.banner2),
+            BannerItemComponents(imagePath: AppImages.banner3),
+            BannerItemComponents(imagePath: AppImages.banner4),
+          ])),
+    );
+  }
+}
+
+class _BottomNavigation extends StatelessWidget {
+  const _BottomNavigation({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigatorComponent(
+      currentIndex: 0,
+      items: [
+        BottomNavigatorItem(
+          label: 'Início',
+          activeIcon: AppIcons.homeActive,
+          icon: AppIcons.home,
+          onTap: () {},
+        ),
+        BottomNavigatorItem(
+          label: 'Busca',
+          activeIcon: AppIcons.searchActive,
+          icon: AppIcons.search,
+          onTap: () {},
+        ),
+        BottomNavigatorItem(
+          label: 'Pedidos',
+          activeIcon: AppIcons.ordersActive,
+          icon: AppIcons.orders,
+          onTap: () {},
+        ),
+        BottomNavigatorItem(
+          label: 'Perfil',
+          activeIcon: AppIcons.profileActive,
+          icon: AppIcons.profile,
+          onTap: () {},
+        ),
+      ],
     );
   }
 }
