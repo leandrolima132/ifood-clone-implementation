@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ifood/shared/components/theme/app_colors.dart';
-import 'package:mobx/mobx.dart';
 
 class BannersComponents extends StatefulWidget {
   final List<BannerItemComponents> list;

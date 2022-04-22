@@ -9,9 +9,9 @@ import 'package:ifood/shared/components/filters.dart';
 import 'package:ifood/shared/components/theme/app_icons.dart';
 import 'package:ifood/shared/components/theme/app_images.dart';
 import 'package:ifood/shared/models/categorys.dart';
+import 'package:ifood/shared/components/header_location.dart';
 
 import '../../../app/modules/home/home_controller.dart';
-import '../../../shared/components/header_location.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
